@@ -34,6 +34,7 @@ def check_files():
     c2 = os.path.exists('./sample_input/names-roll.csv')
     c3 = os.path.exists('./sample_input/subjects_master.csv')
     return c1 and c2 and c3
+    
 @app.route('/',methods=['GET','POST'])
 def index(): 
     return render_template('index.html',data = bool_dict)
@@ -47,8 +48,12 @@ def upload_files():
     if c1 and c2 and c3:
         bool_dict['upload_files'] = "Uploaded Successfully"
     else:
-        string = "didn't upload" + " grades.csv" if not c1 else ""+" names-roll.csv" if not c2 else ""+" subjects_master.csv" if not c3 else ""+"files"
-        bool_dict['upload_files'] = string
+        string = "didn't upload" 
+        opts1 = " grades.csv" if not c1 else ""
+        opts2 = " names-roll.csv" if not c2 else ""
+        opts3 = " subjects_master.csv" if not c3 else ""
+        final = " files"
+        bool_dict['upload_files'] = string+opts1+opts2+opts3
     return redirect(url_for('index'))
 
 @app.route('/create_range',methods=['GET','POST'])

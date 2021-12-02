@@ -75,6 +75,7 @@ def generate_rollno_list(nr,start_roll,end_roll):
     nr_dict,missing_nums,existing_nums={},[],[]
     for i in range(len(nr)): nr_dict[nr.at[i,"Roll"]] = nr.at[i,"Name"]
     start_roll_no,end_roll_no = int(start_roll[6:]),int(end_roll[6:])
+    if start_roll_no>end_roll_no : start_roll_no,end_roll_no = end_roll_no,start_roll_no
     st = start_roll[:6]
     for i in range(start_roll_no,end_roll_no+1):
         if len(str(i))==1: num = "0"+str(i)
