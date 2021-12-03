@@ -9,6 +9,7 @@
     transition: 0.3s;
     justify-content: space-between;
 }
+body {background-color: rgba(201, 76, 76, 0.3);}
 .App:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }

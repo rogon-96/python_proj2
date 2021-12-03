@@ -16,7 +16,7 @@ def handle_file_save(FileObject,req_resp_name):
     if FileObject.filename :
         file_name = FileObject.filename
         filename = secure_filename(file_name)
-        FileObject.save(os.path.join(sample_input_path,filename))
+        FileObject.save(os.path.join(sample_input_path,req_resp_name))
         return True
     elif os.path.exists(f"./sample_input/{req_resp_name}"): return True
     else : return False 
@@ -97,6 +97,7 @@ def create_all():
     names_data = open("./sample_input/grades.csv","r")
     names_csv = csv.reader(names_data)
     names_list = [list(record) for record in names_csv][1:]
+
     func.generate_transcripts(nr,sm,names_list)
     bool_dict['create_all'] = 'Created Successfully'
     return redirect(url_for('index'))
@@ -104,14 +105,18 @@ def create_all():
 @app.route('/seal',methods=['GET','POST'])
 def seal():
     bool_dict['seal'] = ''
-    handle_file_save(request.files.get("seal"),"seal.csv")
+    if request.files.get("seal"):
+        handle_file_save(request.files.get("seal"),"seal.png")
+        bool_dict['seal']= 'Uploaded Successfully'
     return redirect(url_for('index'))
 
 
 @app.route('/signature',methods=['GET','POST'])
 def signature():
     bool_dict['signature']= ''
-    handle_file_save(request.files.get("signature"),"signature.csv")
+    if request.files.get("signature"):
+        handle_file_save(request.files.get("signature"),"signature.png")
+        bool_dict['signature']= 'Uploaded Successfully'
     return redirect(url_for('index'))
 
 if __name__ == "__main__":

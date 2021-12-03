@@ -1,6 +1,7 @@
 from fpdf import FPDF
 import csv,os,re
 import pandas as pd
+from datetime import date
 
 def generate_header_layout(pdf,*stud_info):
     pdf.set_font("Times",'B',size=10)
@@ -10,13 +11,15 @@ def generate_header_layout(pdf,*stud_info):
 
     pdf.rect(10,10,390,277)
     pdf.rect(10,40,390,0)
-    pdf.rect(50,11,0,29)
+    pdf.rect(52,11,0,29)
     pdf.rect(360,11,0,29)
     pdf.rect(95,43,240,13)
     
     lst,x,y= ["INTERIM TRANSCRIPT","TRANSCRIPT","INTERIM TRANSCRIPT"],10,36
     for item in lst:
         pdf.set_xy(x,36)
+        if item == "TRANSCRIPT": pdf.set_font("Times",'B',size=15)
+        else:pdf.set_font("Times",'B',size=10)
         pdf.cell(25,5,item)
         x+=175
     x=0
@@ -45,12 +48,18 @@ def generate_cpi_credits(x,y,w,pdf,spi,cpi,total_credits):
 
 
 def generate_footer_layout(mth,pdf):
-    pdf.rect(10,mth,390,277)
+    pdf.rect(10,mth,390,0)
     pdf.set_xy(19.8,mth+(287-mth)/2)
     pdf.cell(15,7,"Date of Issue")
     pdf.rect(pdf.get_x()+5,pdf.get_y()+5,30,0)
+    pdf.set_xy(pdf.get_x()+5,pdf.get_y())
+    pdf.cell(15,7,str(date.today()))
+    if os.path.exists('./sample_input/seal.png'):
+        pdf.image('./sample_input/seal.png' ,pdf.get_x()+150,mth+10,50,50)
     pdf.rect(350,pdf.get_y(),30,0)
     pdf.set_xy(350,pdf.get_y())
+    if os.path.exists('./sample_input/signature.png'):
+        pdf.image('./sample_input/signature.png' ,350,pdf.get_y()-12,30,25)
     pdf.cell(15,7,"Assistant Registrar(Academic)")
     return
 
